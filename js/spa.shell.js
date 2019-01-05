@@ -6,10 +6,10 @@
 /*jslint         browser : true, continue : true,
   devel  : true, indent  : 4,    maxerr   : 50,
   newcap : true, nomen   : true, plusplus : true,
-  regexp : true, sloppy  : true, vars     : true,
+  regexp : true, sloppy  : true, vars     : false,
   white  : true
 */
-/* global $, spa */
+/*global $, spa */
 
 spa.shell = (function () {
     // ---------- モジュールスコープ変数開始 ----------
@@ -48,6 +48,7 @@ spa.shell = (function () {
         jqueryMap = {},
 
         copyAchorMap, setJqueryMap, toggleChat, changeAnchorPart, onHashChange, onClickChat, initModule;
+
     // ---------- モジュールスコープ変数終了 ----------
 
     // ---------- ユーティリティメソッド開始 ----------
@@ -83,13 +84,14 @@ spa.shell = (function () {
     //    * false - スライダー拡大時
     // 
     toggleChat = function(do_extend, callback) {
-        var px_chat_ht = jqueryMap.$chat.height();
-            is_open = px_chat_ht === configMap.chat_extend_height;
-            is_closed = px_chat_ht === configMap.chat_retract_height;
+        var px_chat_ht = jqueryMap.$chat.height(),
+            is_open = px_chat_ht === configMap.chat_extend_height,
+            is_closed = px_chat_ht === configMap.chat_retract_height,
             is_sliding = ! is_open && ! is_closed;
 
         // 競合状態を避ける
-        if (is_sliding) return false;
+        if (is_sliding) { return false; }
+            
 
         // チャットスライダー拡大
         if (do_extend) {
