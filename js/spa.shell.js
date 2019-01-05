@@ -32,13 +32,17 @@ spa.shell = (function () {
                 + '</div>'
                 + '<div class="spa-shell-foot"></div>'
                 + '<div class="spa-shell-modal"></div>',
+            resize_interval: 200,
         },
         stateMap = {
+            $container: undefined,
             anchor_map: {},
+            resize_idto: undefined,
         },
         jqueryMap = {},
 
-        copyAnchorMap, setJqueryMap, changeAnchorPart, onHashChange,
+        copyAnchorMap, setJqueryMap,
+        changeAnchorPart, onHashChange, onResize,
         setChatAnchor, initModule;
 
     // ---------- モジュールスコープ変数終了 ----------
@@ -183,6 +187,24 @@ spa.shell = (function () {
 
         return false;
     };
+
+    // イベントハンドラ/onResize/
+    onResize = function () {
+        if (stateMap.resize_idto) {
+            return true;
+        }
+
+        spa.chat.handleResize();
+        stateMap.resize_idto = setTimeout(
+            function () {
+                stateMap.resize_idto = undefined;
+            },
+            configMap.resize_interval
+        );
+
+        // preventDefault(), stopPropagation()を実行しないようにする
+        return true;
+    };
     // ---------- イベントハンドラ終了 ----------
 
     // ---------- コールバック開始 ----------
@@ -250,6 +272,7 @@ spa.shell = (function () {
         // トリガーイベントはアンカーがロード状態と見なせることを保証するために使う
         // 
         $(window)
+            .bind('resize', onResize)
             .bind('hashchange', onHashChange)
             .trigger('hashchange');
     };
