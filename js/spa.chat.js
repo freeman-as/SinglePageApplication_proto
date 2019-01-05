@@ -10,7 +10,7 @@
   white  : true
 */
 
-/*global $, spa,getComputedStyle */
+/*global $, spa, getComputedStyle */
 
 spa.chat = (function () {
 
