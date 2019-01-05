@@ -276,6 +276,10 @@ spa.shell = (function () {
             schema_map: configMap.anchor_shema_map
         });
 
+        // 機能モジュールを構成して初期化
+        spa.chat.configModule({});
+        spa.chat.initModule(jqueryMap.$chat);
+
         // URIアンカー変更イベントを処理
         // これはすべて機能モジュールを設定して初期化した後に行う
         // そうしないとトリガーイベントを処理できる状態になっていない

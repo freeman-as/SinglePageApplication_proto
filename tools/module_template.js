@@ -16,8 +16,9 @@ spa.module = (function () {
 
     //---------------- モジュールスコープ変数開始 --------------
     var configMap = {
+            main_html: String()
+                + '<div>Module</div>',
             settable_map : { color_name: true },
-            color_name   : 'blue'
         },
         stateMap  = { $container : null },
         jqueryMap = {},
@@ -46,16 +47,16 @@ spa.module = (function () {
 
     //------------------- パブリックメソッド開始 -------------------
     // パブリックメソッド/configModule/
-    // 目的：
+    // 目的：許可されたキーの構成を調整する
     // 引数：設定可能なキーバリューマップ
-    //   * color_name - 使用する色
+    //   * input_map - 
     // 設定：
     //   * configMap.settable_map 許可されたキーを宣言する
     // 戻り値：true
     // 例外発行：なし
     //
-    configModule = function ( input_map ) {
-        spa.butil.setConfigMap({
+    configurateModule = function ( input_map ) {
+        spa.util.setConfigMap({
             input_map    : input_map,
             settable_map : configMap.settable_map,
             config_map   : configMap
@@ -65,12 +66,13 @@ spa.module = (function () {
 
     // パブリックメソッド/initModule/
     // 目的：モジュールを初期化する
-    // 引数：設定可能なキーバリューマップ
+    // 引数：
     //   * $container - この機能が使うjQuery要素
     // 戻り値：true
     // 例外発行：なし
     //
     initModule = function ( $container ) {
+        $container.html(configMap.main_html);
         stateMap.$container = $container;
         setJqueryMap();
         return true;
@@ -78,8 +80,8 @@ spa.module = (function () {
 
     // パブリックメソッドを返す
     return {
-        configModule : configModule,
-        initModule   : initModule
+        configurateModule: configurateModule,
+        initModule: initModule
     };
     //------------------- パブリックメソッド終了 -------------------
 }());
