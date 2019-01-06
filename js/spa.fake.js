@@ -72,7 +72,7 @@ spa.fake = (function () {
         };
 
         emit_sio = function(msg_type, data) {
-            var person_map;
+            var person_map, i;
 
             // 3秒間の遅延後に[userupdate]コールバックで[adduser]イベントに応答する
             // 
@@ -112,6 +112,19 @@ spa.fake = (function () {
                     listchange_idto = undefined;
                 }
                 send_listchange();
+            }
+
+            // サーバーへの[updateavatar]メッセージとデータの送信をシュミレート
+            if (msg_type === 'updateavatar') {
+                // [listchange]メッセージの受信をシュミレートする
+                for (i = 0; i < peopleList.length; i++) {
+                    if (peopleList[i]._id=== data.person_id) {
+                        peopleList[i].css_map = data.css_map;
+                        break;
+                    }
+                }
+                // [listchage]メッセージ用のコールバックを実行
+                callback_map.listchange([peopleList]);
             }
         };
 
